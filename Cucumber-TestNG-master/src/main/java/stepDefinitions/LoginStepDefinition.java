@@ -3,6 +3,7 @@ package stepDefinitions;
 import java.lang.management.ManagementFactory;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
@@ -29,7 +30,7 @@ public class LoginStepDefinition{
 	 WebDriver driver;
 	 private  Scenario scenario;
 	 public Step step;
-	 
+	 public boolean headless=false;
 	
 	 @Before
 	 public void beforeTest(Scenario scenario){
@@ -43,16 +44,24 @@ public class LoginStepDefinition{
 	 public void user_already_on_login_page() throws MalformedURLException{
 	 System.setProperty("webdriver.chrome.driver","chromedriver");
 	 ChromeOptions options = new ChromeOptions();
-	 options.addArguments("start-maximized");
-	 options.addArguments("--always-authorize-plugins");
-     options.addArguments("enable-automation"); 
-    // options.addArguments("--no-sandbox"); //https://stackoverflow.com/a/50725918/1689770
-    // options.addArguments("--headless");
-   //  options.addArguments("--disable-dev-shm-usage"); //https://stackoverflow.com/a/50725918/1689770
-   //  options.addArguments("--disable-browser-side-navigation"); //https://stackoverflow.com/a/49123152/1689770
-   //  options.addArguments("--disable-gpu"); //https://stackoverflow.com/questions/51959986/how-to-solve-selenium-chromedriver-timed-out-receiving-message-from-renderer-exc
+	    options.addArguments("disable-infobars");
+		options.addArguments("--start-maximized");
+		options.addArguments("--disable-extensions");
+		options.addArguments("--disable-popup-blocking");
+		if (headless) {
+			System.out.println("In Headless");
+			options.addArguments("--headless");
+			options.addArguments("window-size=1366x768");
+			options.addArguments("--disable-extensions");
+			options.addArguments("enable-automation");
+			options.addArguments("--window-size=1364,786");
+			options.addArguments("--no-sandbox");
+			options.addArguments("--dns-prefetch-disable");
+			options.addArguments("--disable-gpu");
+		}
      driver = new ChromeDriver(options);
-
+     driver.manage().timeouts().implicitlyWait(2000, TimeUnit.MILLISECONDS);
+     driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
 	 // DesiredCapabilities capabilities = new DesiredCapabilities().chrome();
 	  //driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"),capabilities);
 	   driver.get("http://34.224.128.171/login");
@@ -80,7 +89,6 @@ public class LoginStepDefinition{
 	 public void tearDown(Scenario scenario) {
 		 if(scenario.isFailed()) {
 			 final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-			   // embed it in the report.
 			      scenario.embed(screenshot, "image/png");     
 	     }
 	    if(driver != null) {
