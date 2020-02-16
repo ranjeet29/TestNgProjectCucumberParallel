@@ -80,7 +80,14 @@ public class LoginStepDefinition{
 	 }
 	
 	
-
+	 @After
+	 public void tearDown() {
+		 if (scenario.isFailed()) {
+		      // Take a screenshot...
+		      final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+		      scenario.embed(screenshot, "image/png"); // ... and embed it in the report.
+		    }
+	 }
 	 
 	 
 		public void afterTest(Scenario scenario) throws InterruptedException {
