@@ -1,4 +1,5 @@
 #this is ignore file
-.class
-./target
-./test-output
+
+*.class
+./target/*
+./test-output/*
