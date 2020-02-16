@@ -74,7 +74,7 @@ public class LoginStepDefinition{
 	 String title = driver.getTitle();
 	 System.out.println(title);
 	 scenario.write("title of page :"+title);
-	 Assert.assertEquals("Innovaccer", title);
+	 Assert.assertEquals("Innovaccerss", title);
 	 Thread.sleep(3000);
 	 driver.findElement(By.xpath("//div[(text()='Innovaccer')]")).click();
 	 driver.findElement(By.xpath("//div[@id='email']//input")).sendKeys("care@innovaccer.com");
