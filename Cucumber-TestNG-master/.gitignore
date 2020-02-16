@@ -1,5 +1,6 @@
 #this is ignore file
 
+*.DS_Store
 *.class
 target/*
 test-output/*
