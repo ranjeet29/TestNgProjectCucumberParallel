@@ -74,7 +74,7 @@ public class LoginStepDefinition{
 	 String title = driver.getTitle();
 	 System.out.println(title);
 	 scenario.write("title of page :"+title);
-	 Assert.assertEquals("Innovaccerss", title);
+	 Assert.assertEquals("Innovaccer", title);
 	 Thread.sleep(3000);
 	 driver.findElement(By.xpath("//div[(text()='Innovaccer')]")).click();
 	 driver.findElement(By.xpath("//div[@id='email']//input")).sendKeys("care@innovaccer.com");
@@ -87,10 +87,10 @@ public class LoginStepDefinition{
 	
 	 @After
 	 public void tearDown(Scenario scenario) {
-		 if(scenario.isFailed()) {
+		 /*if(scenario.isFailed()) {
 			 final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
 			      scenario.embed(screenshot, "image/png");     
-	     }
+	     }*/
 	    if(driver != null) {
 	    	driver.quit();
 	    	
