@@ -30,7 +30,7 @@ public class LoginStepDefinition{
 	 WebDriver driver;
 	 private  Scenario scenario;
 	 public Step step;
-	 public boolean headless=false;
+	 public boolean headless=true;
 	
 	 @Before
 	 public void beforeTest(Scenario scenario){
