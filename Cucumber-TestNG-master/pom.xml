@@ -123,6 +123,30 @@
 				</configuration>
 			</plugin>			
 			
+			<plugin>
+            <groupId>net.masterthought</groupId>
+            <artifactId>maven-cucumber-reporting</artifactId>
+            <version>4.5.0</version>
+            <executions>
+                <execution>
+                    <id>execution</id>
+                    <phase>verify</phase>
+                    <goals>
+                        <goal>generate</goal>
+                    </goals>
+                    <configuration>
+                        <projectName>ParallelExecution</projectName>
+                        <inputDirectory>target/cucumber-reports</inputDirectory>
+                        <outputDirectory>${project.build.directory}/cucumber-report-html</outputDirectory>
+                        <parallelTesting>true</parallelTesting>
+                        <jsonFiles>
+                            <!-- supports wildcard or name pattern -->
+                            <param>**/*.json</param>
+                        </jsonFiles>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
 <!-- 			<plugin> -->
 <!-- 				<groupId>net.masterthought</groupId> -->
 <!-- 				<artifactId>maven-cucumber-reporting</artifactId> -->
@@ -135,10 +159,12 @@
 <!-- 							<goal>generate</goal> -->
 <!-- 						</goals> -->
 <!-- 						<configuration> -->
-<!-- 							<projectName>MyProjectName</projectName>  Replace with project name -->
+<!-- 							<projectName>ParallelExecution</projectName> -->
 <!-- 							<outputDirectory>target/cucumber-reports/advanced-reports</outputDirectory> -->
+<!-- 							<jsonFiles> -->
+<!-- 							 <jsonFile>target/cucumber-reports/*.json</jsonFile> -->
+<!-- 							</jsonFiles> -->
 <!-- 						    <cucumberOutput>target/cucumber-reports/CucumberTestReport1.json</cucumberOutput> -->
-<!-- 							<buildNumber>1</buildNumber> -->
 <!-- 							<parallelTesting>true</parallelTesting> -->
 <!-- 						</configuration> -->
 <!-- 					</execution> -->

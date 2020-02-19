@@ -9,9 +9,8 @@ import cucumber.api.java.After;
 
 
 @CucumberOptions(
-        features = "src/main/java/Features/login.feature",
+        features = "src/main/java/Features/login2.feature",
         glue = {"stepDefinitions"},
-        tags = {"~@Ignore"},
         monochrome = true,
         plugin = { "pretty", "html:target/cucumber-reports/cucumber-pretty",
 				"json:target/cucumber-reports/CucumberTestReport2.json",

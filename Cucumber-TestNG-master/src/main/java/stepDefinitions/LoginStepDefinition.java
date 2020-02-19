@@ -40,8 +40,8 @@ public class LoginStepDefinition{
 	 }
 
 	
-	 @Given("^user is already on Login Page$")
-	 public void user_already_on_login_page() throws MalformedURLException{
+	 @Given("^Env Setup and User is already on Home Page$")
+	 public void env_setup_and_user_is_already_on_home_page() throws MalformedURLException{
 	 System.setProperty("webdriver.chrome.driver","chromedriver");
 	 ChromeOptions options = new ChromeOptions();
 	    options.addArguments("disable-infobars");
@@ -59,62 +59,55 @@ public class LoginStepDefinition{
 			options.addArguments("--dns-prefetch-disable");
 			options.addArguments("--disable-gpu");
 		}
-     driver = new ChromeDriver(options);
-     driver.manage().timeouts().implicitlyWait(2000, TimeUnit.MILLISECONDS);
-     driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
-	 // DesiredCapabilities capabilities = new DesiredCapabilities().chrome();
-	  //driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"),capabilities);
-	   driver.get("http://34.224.128.171/login");
+		driver = new ChromeDriver(options);
+		driver.manage().timeouts().implicitlyWait(2000, TimeUnit.MILLISECONDS);
+		driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
+		// DesiredCapabilities capabilities = new DesiredCapabilities().chrome();
+	    // driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"),capabilities);
+	    driver.get("http://34.224.128.171/login");
 	   
 	 }
 	
 	
-	 @When("^title of login page is Free CRM$")
-	 public void title_of_login_page_is_free_CRM() throws Exception{
-	 String title = driver.getTitle();
-	 System.out.println(title);
-	 scenario.write("title of page :"+title);
-	 Assert.assertEquals("Innovaccer", title);
-	 Thread.sleep(3000);
-	 driver.findElement(By.xpath("//div[(text()='Innovaccer')]")).click();
-	 driver.findElement(By.xpath("//div[@id='email']//input")).sendKeys("care@innovaccer.com");
-	 driver.findElement(By.xpath("(//div[@id='password']//input)[1]")).sendKeys("demo123");
-	 driver.findElement(By.xpath("//form[@id='datashop-login-form']//button[@class='button large success end float-right'][contains(text(),'Sign in to continue')]")).click();
-	 Thread.sleep(5000);
-	 }
+	@Then("^Validating Title and login application with username \"([^\"]*)\" and password as \"([^\"]*)\"$")
+	public void validating_title_and_login_application_with_username_something_and_password_as_something(String username, String password) throws Exception {
+		String title = driver.getTitle();
+		System.out.println(title);
+		scenario.write("title of page :" + title);
+		Assert.assertEquals("Innovaccer", title);
+		Thread.sleep(3000);
+		driver.findElement(By.xpath("//div[(text()='Innovaccer')]")).click();
+		driver.findElement(By.xpath("//div[@id='email']//input")).sendKeys(username);
+		driver.findElement(By.xpath("(//div[@id='password']//input)[1]")).sendKeys(password);
+		driver.findElement(By.xpath("//form[@id='datashop-login-form']//button[@class='button large success end float-right'][contains(text(),'Sign in to continue')]")).click();
+		Thread.sleep(2000);
+	}
 	
 
 	
 	 @After
 	 public void tearDown(Scenario scenario) {
-		 /*if(scenario.isFailed()) {
-			 final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-			      scenario.embed(screenshot, "image/png");     
-	     }*/
+		 if(scenario.isFailed()) {
+			 try {
+				 System.out.println(scenario.getName() + " is Failed");
+			 	 final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+			 	 scenario.embed(screenshot, "image/png"); 
+			 }catch (Exception e) {
+				e.printStackTrace();
+			}
+	     }else {
+	    	 try {
+	    		 
+	    		 System.out.println(scenario.getName() + " is Passed");
+	    		 scenario.embed(((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES), "image/png" );
+	    	 }catch (Exception e) {
+				e.printStackTrace();
+			}
+	     }
 	    if(driver != null) {
 	    	driver.quit();
 	    	
 	    }
-	 }
-	
-	
-    
-	 
-		public void afterTest(Scenario scenario) throws InterruptedException {
-		    System.out.println("Taking screenshot IF Test Failed (sysOut)");
-		    if (scenario.isFailed()) {
-		        try {
-		            System.out.println("Scenario FAILED... screen shot taken");
-		            scenario.write(driver.getCurrentUrl());
-		            byte[] screenShot = ((org.openqa.selenium.TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES);
-		            scenario.embed(screenShot, "image/png");
-		        } catch (WebDriverException e) {
-		            e.printStackTrace();
-		        }
-		    }else {
-		    	scenario.write("title");
-		    }
-		} 
-	
+	 }	
 
 }
