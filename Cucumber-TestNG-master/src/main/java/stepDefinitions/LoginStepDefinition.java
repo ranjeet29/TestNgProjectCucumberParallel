@@ -87,7 +87,7 @@ public class LoginStepDefinition{
 	
 	 @After
 	 public void tearDown(Scenario scenario) {
-		 if(scenario.isFailed()) {
+	/*	 if(scenario.isFailed()) {
 			 try {
 				 System.out.println(scenario.getName() + " is Failed");
 			 	 final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
@@ -104,6 +104,7 @@ public class LoginStepDefinition{
 				e.printStackTrace();
 			}
 	     }
+           */
 	    if(driver != null) {
 	    	driver.quit();
 	    	
